@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package pe.grpc;
+
+service BannerService {
+  rpc FindOne(BannerRequest) returns (BannerResponse);
+  rpc FindAll(BannerRequest) returns (BannerResponse);
+  rpc GetBannerContents(BannerRequest) returns (BannerResponse);
+}
+
+message BannerRequest {
+  string banner_type = 1;
+  string banner_code = 2;
+}
+
+message BannerResponse {
+  string banner_type = 1;
+  string banner_code = 2;
+  repeated BannerContents banner_contents = 3;
+}
+
+message BannerContents {
+  string poc = 1;
+  string img_url = 2;
+  string text = 3;
+  string sub_text = 4;
+}

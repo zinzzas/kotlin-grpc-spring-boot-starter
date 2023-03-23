@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: grpc-spring-boot-stater
+  main:
+    web-application-type: none
+  profiles:
+    active: local
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration
+      - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+mongodb:
+  uri: mongodb://127.0.0.1:27017
+  info:
+    test:
+      database: test
+
+grpc:
+  server:
+    port: 9090
+    health-service-enabled: true
+
+  client:
+    episode:
+      address: 'static://127.0.0.1:8080'
+      negotiationType: plaintext
+
+logging:
+  level:
+    org.springframework: INFO
+    io.grpc: INFO
