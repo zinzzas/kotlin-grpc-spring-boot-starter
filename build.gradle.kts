@@ -11,7 +11,7 @@ object Version {
 extra["kotlin-coroutines.version"] = "1.6.4"
 
 plugins {
-	id("org.springframework.boot") version "2.6.13"
+	id("org.springframework.boot") version "2.7.5"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("com.google.protobuf") version "0.9.2"
 	kotlin("jvm") version "1.8.0"
@@ -39,6 +39,7 @@ dependencies {
 	//spring
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
@@ -55,14 +56,11 @@ dependencies {
 	implementation("com.google.protobuf:protobuf-kotlin:${Version.protoc}")
 	implementation("io.grpc:grpc-netty:${Version.grpc}")
 
-	//json
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
 	//mapstruct
 	implementation("org.mapstruct:mapstruct:1.5.3.Final")
 	kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
 
-	// test
+	//test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
 	testImplementation("io.kotest:kotest-runner-junit5:${Version.kotest}")

@@ -1,1 +1,1 @@
-rootProject.name = "grpc-spring-boot-starter"
+rootProject.name = "kotlin-grpc-spring-boot-starter"

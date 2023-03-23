@@ -1,6 +1,6 @@
 spring:
   application:
-    name: grpc-spring-boot-stater
+    name: kotlin-grpc-spring-boot-stater
   main:
     web-application-type: none
   profiles:
