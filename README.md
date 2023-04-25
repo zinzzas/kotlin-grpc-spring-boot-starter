@@ -5,6 +5,9 @@ kotlin-grpc using spring boot
 
 * Spring Boot 2.7.5 + webflux
 * Java 15 (feat.corretto-15)
+* Grpc 1.53.0
+* Protobuf 3.22.0
+* Grpc Kotlin 1.3.0
 * Gradle 7.4.2
 
 ### Building the artifact ###
