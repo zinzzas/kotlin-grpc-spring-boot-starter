@@ -1,27 +1,50 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 package pe.grpc;
 
 service BannerService {
-  rpc FindOne(BannerRequest) returns (BannerResponse);
-  rpc FindAll(BannerRequest) returns (BannerResponse);
-  rpc GetBannerContents(BannerRequest) returns (BannerResponse);
+  rpc GetBanner(BannerRequest) returns (BannerResponse);
+  rpc ListBanners(BannerRequest) returns (ListBannerResponse);
+  rpc CreateBanner(CreateBannerRequest) returns (google.protobuf.Empty);
+  rpc DeleteBanner(DeleteBannerRequest) returns (google.protobuf.Empty);
 }
 
 message BannerRequest {
   string banner_type = 1;
   string banner_code = 2;
+  string poc = 3;
 }
 
 message BannerResponse {
-  string banner_type = 1;
-  string banner_code = 2;
-  repeated BannerContents banner_contents = 3;
+  Contents contents = 1;
 }
 
-message BannerContents {
-  string poc = 1;
-  string img_url = 2;
-  string text = 3;
-  string sub_text = 4;
+message ListBannerResponse {
+  repeated Contents contents = 1;
+}
+
+message CreateBannerRequest {
+  string banner_code = 1;
+  string banner_type = 2;
+  string poc = 3;
+  string img_url = 4;
+  optional string text = 5;
+  string sub_text = 6;
+}
+
+message DeleteBannerRequest {
+  string banner_code = 1;
+  string banner_type = 2;
+  string poc = 3;
+}
+
+message Contents {
+  string banner_code = 1;
+  string banner_type = 2;
+  string poc = 3;
+  string img_url = 4;
+  string text = 5;
+  string sub_text = 6;
 }

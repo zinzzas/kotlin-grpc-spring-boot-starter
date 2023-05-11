@@ -20,11 +20,11 @@ internal class BannerGrpcServiceTest: DescribeSpec() {
                         .setBannerType("HOME")
                         //.setBannerCode("BN0101")
                         .build()
-                    val response = stub.findOne(req)
+                    val response = stub.getBanner(req)
 
                     assertSoftly {
-                        response.bannerType shouldBe "HOME"
-                        response.getBannerContents(0).imgUrl shouldContain "https://"
+                        response.contents.bannerType shouldBe "HOME"
+                        response.contents.imgUrl shouldContain "https://"
                     }
                     println("===> response $response")
                 }
