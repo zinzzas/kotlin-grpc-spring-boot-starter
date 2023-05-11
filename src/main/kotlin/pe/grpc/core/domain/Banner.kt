@@ -1,11 +1,11 @@
 package pe.grpc.core.domain
 
 data class Banner(
-    var bannerType: String = "",
-    var bannerCode: String = "",
-    var bannerContents: List<BannerContents> = mutableListOf(),
+    var contents: List<Contents> = mutableListOf(),
 ) {
-    data class BannerContents(
+    data class Contents(
+        var bannerType: String = "",
+        var bannerCode: String = "",
         var poc: String = "",
         var imgUrl: String = "",
         var textval: String = "",
