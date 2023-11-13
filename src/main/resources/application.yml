@@ -29,8 +29,9 @@ grpc:
 
   client:
     episode:
-      address: 'static://127.0.0.1:8080'
+      address: dns:///127.0.0.1:8080
       negotiationType: plaintext
+      enable-keep-alive: true
 
 logging:
   level:

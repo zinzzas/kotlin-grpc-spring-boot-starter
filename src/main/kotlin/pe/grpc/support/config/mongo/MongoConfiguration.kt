@@ -8,14 +8,18 @@ import org.springframework.data.mapping.model.SnakeCaseFieldNamingStrategy
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter
-import org.springframework.data.mongodb.core.convert.NoOpDbRefResolver
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext
 import java.util.concurrent.TimeUnit
 
 interface MongoConfiguration {
 
-    fun mongoClientSettings(uri: String?, poolSettings: Block<ConnectionPoolSettings.Builder>?): MongoClientSettings {
-        val connectionString = ConnectionString(uri!!)
+    fun mongoClientSettings(properties: MongoDBProperties, poolSettings: Block<ConnectionPoolSettings.Builder>?): MongoClientSettings {
+        val connectionString = ConnectionString(properties.uri!!)
+        val credential = MongoCredential.createCredential(
+            properties.username ?: "",
+            properties.getInfo(MongoDBProperties.DatabaseType.TEST)!!.database.toString(),
+            properties.password?.toCharArray() ?: charArrayOf()
+        )
         val builder = MongoClientSettings.builder()
             .retryReads(false)
             .retryWrites(false)
@@ -24,10 +28,13 @@ interface MongoConfiguration {
             .applyConnectionString(connectionString)
             .applyToConnectionPoolSettings(poolSettings!!)
             .applyToSocketSettings { x: SocketSettings.Builder ->
-                x.connectTimeout(3000, TimeUnit.MILLISECONDS) // 5000 -> 3000
-                x.readTimeout(2000, TimeUnit.MILLISECONDS) // 3000 -> 2000
+                x.connectTimeout(3000, TimeUnit.MILLISECONDS)
+                x.readTimeout(2000, TimeUnit.MILLISECONDS)
             }
 
+        if (isCredential(properties)) {
+            builder.credential(credential)
+        }
 
         return builder.build()
     }
@@ -35,7 +42,8 @@ interface MongoConfiguration {
     fun defaultPoolSettings(): Block<ConnectionPoolSettings.Builder>? {
         return Block { x: ConnectionPoolSettings.Builder ->
             x.maxSize(100)
-            x.maxWaitTime(5000, TimeUnit.MILLISECONDS) // 10000 -> 5000
+            x.maxWaitTime(5000, TimeUnit.MILLISECONDS)
+            x.maxConnectionIdleTime(10000, TimeUnit.MILLISECONDS)
         }
     }
 
@@ -58,4 +66,7 @@ interface MongoConfiguration {
         return converter
     }
 
+    private fun isCredential(properties: MongoDBProperties): Boolean {
+        return !(properties.username.isNullOrEmpty() || properties.password.isNullOrEmpty())
+    }
 }

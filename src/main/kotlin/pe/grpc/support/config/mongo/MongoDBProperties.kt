@@ -7,6 +7,8 @@ import org.springframework.boot.context.properties.ConstructorBinding
 @ConfigurationProperties("mongodb")
 data class MongoDBProperties (
     val uri: String,
+    val username: String?,
+    val password: String?,
     val info: Map<DatabaseType, Info>? = null) {
 
     class Info(var database: String?)
